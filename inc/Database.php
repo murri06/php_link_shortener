@@ -45,7 +45,6 @@ class Database
             //     // Do something with the row data
             // }
 
-            echo "Connected to the database successfully!";
         } catch (PDOException $e) {
             die("Connection failed: " . $e->getMessage());
         }

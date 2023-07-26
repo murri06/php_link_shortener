@@ -4,9 +4,9 @@ namespace Acme;
 require_once 'vendor/autoload.php';
 
 $link = new Link();
-//$pdo = new Database('localhost', 'id21079002_php_link_shortener', '
-//id21079002_murri06', 'Wad@n037');
-//$pdo->connect();
+$pdo = new Database('sql205.infinityfree.com', 'if0_34693072_php_link_shortener',
+    'if0_34693072', 'EavByKrz0g');
+$pdo->connect();
 //if ($link->generateLink($pdo)) {
 //    echo $link->getLinkShorter();
 //}
@@ -53,7 +53,12 @@ $link = new Link();
                     <li>Action</li>
                 </div>
                 <div class="data">
-
+                    <?php foreach ($pdo->getAllData('links') as $link): ?>
+                        <li><?= $link['shortLink'] ?></li>
+                        <li><?= $link['longLink'] ?></li>
+                        <li><?= $link['clicks'] ?></li>
+                        <li>Delete</li>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
