@@ -11,6 +11,7 @@ class Database
     private $dbName;
     private $username;
     private $password;
+    private $pdo;
 
 
     /**
@@ -27,7 +28,7 @@ class Database
         $this->password = $password;
     }
 
-    public function connect()
+    public function connect(): void
     {
         try {
             // Establish the database connection using PDO
@@ -48,15 +49,17 @@ class Database
         } catch (PDOException $e) {
             die("Connection failed: " . $e->getMessage());
         }
-        return $pdo;
+        $this->pdo = $pdo;
     }
 
-    public function getData($pdo, $tablename)
+    public function getAllData($tablename): array
     {
 
-        $pdo::prepare();
+        $sql = "SELECT * FROM :tablename";
+        $sth = $this->pdo->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+        $sth->execute(['tablename' => $tablename]);
 
-        return ;
+        return $sth->fetch(PDO::FETCH_ASSOC);
     }
 
 }

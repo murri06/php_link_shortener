@@ -31,7 +31,7 @@ class Link
         return $this->linkShorter;
     }
 
-    public function generateLink(): bool
+    public function generateLink($pdo): bool
     {
         $short = '';
         for ($i = 0; $i <= 7; $i++) {
@@ -40,10 +40,11 @@ class Link
             $short .= $characters[$random_index];
         }
 
+        $array = $pdo->getAllData('links');
 
-//        if (array_key_exists()) {
-//            return false;
-//        }
+        if (in_array($short, $array)) {
+            return false;
+        }
 
         return $this->linkShorter = $short;
     }
