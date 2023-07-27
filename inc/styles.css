@@ -72,11 +72,15 @@ form input {
     caret-color: #8e2de2;
     border: 3px solid #8e2de2;
     border-radius: 10px;
+    transition: all 0.1s ease;
+}
+
+form input:focus {
+    border-color: #ad4eff;
 }
 
 form input::placeholder {
     color: #8e2de2;
-
 }
 
 form button {
@@ -92,6 +96,10 @@ form button {
     pointer-events: none;
 }
 
+form button:hover{
+    background: #ad4eff;
+}
+
 form input:valid ~ button {
     opacity: 1;
     pointer-events: auto;
@@ -103,12 +111,17 @@ form input:valid {
 
 .wrapper-urls {
     width: 100%;
-    border: 3px solid #8E2DE2FF;
+    border: 3px solid #8e2de2;
     border-radius: 10px;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+.wrapper-urls::-webkit-scrollbar {
+    width: 0;
 }
 
 .wrapper-urls :is(.title, .data) {
-    padding: 5px;
     display: flex;
     width: 100%;
     justify-content: space-between;
@@ -120,7 +133,13 @@ form input:valid {
     border-right: 2px solid #8e2de2;
 }
 
+.wrapper-urls li:last-child{
+    border-right: 0;
+}
+
 .wrapper-urls .title li {
+    background: #8e2de2;
+    color: white;
     text-align: center;
     padding: 10px 0;
 }
@@ -131,4 +150,31 @@ form input:valid {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.bi-trash-fill {
+    color: #8e2de2;
+    width: 50px;
+    font-size: 23px;
+    text-align: center;
+}
+
+.wrapper-urls .data li:nth-child(odd) {
+    background: ghostwhite;
+}
+
+.wrapper-urls li:nth-child(1) {
+    max-width: 35%;
+}
+
+.wrapper-urls li:nth-child(2) {
+    max-width: 45%;
+}
+
+.wrapper-urls li:nth-child(3) {
+    max-width: 10%;
+}
+
+.wrapper-urls li:nth-child(4) {
+    max-width: 10%;
 }

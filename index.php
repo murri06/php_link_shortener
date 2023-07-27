@@ -52,15 +52,23 @@ $pdo->connect();
                     <li>Clicks</li>
                     <li>Action</li>
                 </div>
-                <div class="data">
-                    <?php foreach ($pdo->getAllData('links') as $link): ?>
+
+                <?php
+                foreach ($pdo->getAllData('links') as $link):
+                    ?>
+                    <div class="data">
                         <li><?= $link['shortLink'] ?></li>
-                        <li><?= $link['longLink'] ?></li>
+                        <li><a href="<?= $link['longLink'] ?>"><?= substr($link['longLink'], 0, 150) . '...' ?></a></li>
                         <li><?= $link['clicks'] ?></li>
-                        <li>Delete</li>
-                    <?php endforeach; ?>
-                </div>
+                        <li><a><i class="bi bi-trash-fill"></i></a></li>
+                    </div>
+                <?php endforeach; ?>
             </div>
+        </div>
+    </div>
+    <div class="popup-box">
+        <div class="info">
+
         </div>
     </div>
 </main>

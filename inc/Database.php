@@ -7,11 +7,11 @@ use PDOException;
 
 class Database
 {
-    private $host;
-    private $dbName;
-    private $username;
-    private $password;
-    private $pdo;
+    private string $host;
+    private string $dbName;
+    private string $username;
+    private string $password;
+    private object $pdo;
 
 
     /**
@@ -37,14 +37,6 @@ class Database
             // Set PDO error mode to exception (optional but recommended)
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            // Now you have a connection ($pdo) that you can use to perform queries
-            // For example:
-            // $query = "SELECT * FROM your_table_name";
-            // $result = $pdo->query($query);
-            // while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            //     // Do something with the row data
-            // }
-
         } catch (PDOException $e) {
             die("Connection failed: " . $e->getMessage());
         }
@@ -53,12 +45,10 @@ class Database
 
     public function getAllData($tablename): array
     {
-
-        $sql = "SELECT * FROM :tablename";
+        $sql = "SELECT * FROM $tablename";
         $sth = $this->pdo->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
-        $sth->execute(['tablename' => $tablename]);
-
-        return $sth->fetch(PDO::FETCH_ASSOC);
+        $sth->execute();
+        return $sth->fetchAll();
     }
 
 }
