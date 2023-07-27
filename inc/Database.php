@@ -51,4 +51,13 @@ class Database
         return $sth->fetchAll();
     }
 
+    public function getLinkValidation($short): array
+    {
+        $sql = "SELECT shortLink FROM links WHERE shortLink = '$short'";
+        $sth = $this->pdo->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+        $sth->execute();
+        return $sth->fetchAll();
+    }
+
+
 }

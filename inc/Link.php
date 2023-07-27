@@ -8,6 +8,15 @@ class Link
     private string $linkShorter;
 
     /**
+     * @param string $linkDefault
+     */
+    public function __construct(string $linkDefault)
+    {
+        $this->linkDefault = $linkDefault;
+    }
+
+
+    /**
      * @return string
      */
     public function getLinkDefault(): string
@@ -33,16 +42,8 @@ class Link
 
     public function generateLink($pdo): bool
     {
-        $short = '';
-        for ($i = 0; $i <= 7; $i++) {
-            $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-            $random_index = rand(0, strlen($characters) - 1);
-            $short .= $characters[$random_index];
-        }
-
-        $array = $pdo->getAllData('links');
-
-        if (in_array($short, $array)) {
+        $short = substr(md5(microtime()), rand(0, 26), 7);
+        if ($pdo->getLinkValidation($short)) {
             return false;
         }
 

@@ -3,13 +3,21 @@
 namespace Acme;
 require_once 'vendor/autoload.php';
 
-$link = new Link();
+
 $pdo = new Database('sql205.infinityfree.com', 'if0_34693072_php_link_shortener',
     'if0_34693072', 'EavByKrz0g');
 $pdo->connect();
-//if ($link->generateLink($pdo)) {
-//    echo $link->getLinkShorter();
-//}
+
+$err = '';
+if (isset($_POST['submit'])) {
+    if (filter_var($_POST['longLink'], FILTER_VALIDATE_URL)) {
+        $longLink = filter_input(INPUT_POST, 'longLink', FILTER_SANITIZE_URL);
+        $link = new Link($longLink);
+        while (!$link->generateLink($pdo)) ;
+        echo $link->getLinkDefault() . PHP_EOL . $link->getLinkShorter() . PHP_EOL;
+    } else $err .= $_POST['longLink'] . ' is not a link!';
+}
+
 ?>
 
 <!doctype html>
@@ -39,7 +47,8 @@ $pdo->connect();
             <form method="post">
                 <i class="bi bi-link-45deg"></i>
                 <input type="text" id="longName" name="longLink" placeholder="Place your long link in here" required>
-                <button>Shorten</button>
+                <label><?= $err ?></label>
+                <button name="submit" type="submit">Shorten</button>
             </form>
         </div>
     </div>

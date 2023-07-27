@@ -96,7 +96,7 @@ form button {
     pointer-events: none;
 }
 
-form button:hover{
+form button:hover {
     background: #ad4eff;
 }
 
@@ -107,6 +107,11 @@ form input:valid ~ button {
 
 form input:valid {
     padding: 0 90px 0 45px;
+}
+
+.wrapper form label {
+    color: red;
+    inline-size: auto;
 }
 
 .wrapper-urls {
@@ -133,7 +138,7 @@ form input:valid {
     border-right: 2px solid #8e2de2;
 }
 
-.wrapper-urls li:last-child{
+.wrapper-urls li:last-child {
     border-right: 0;
 }
 
