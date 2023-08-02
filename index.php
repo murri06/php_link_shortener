@@ -2,22 +2,23 @@
 
 namespace Acme;
 require_once 'vendor/autoload.php';
-
+session_start();
 
 $pdo = new Database('sql205.infinityfree.com', 'if0_34693072_php_link_shortener',
     'if0_34693072', 'EavByKrz0g');
 $pdo->connect();
 
 $err = '';
-if (isset($_POST['submit'])) {
-    if (filter_var($_POST['longLink'], FILTER_VALIDATE_URL)) {
-        $longLink = filter_input(INPUT_POST, 'longLink', FILTER_SANITIZE_URL);
-        $link = new Link($longLink);
-        while (!$link->generateLink($pdo)) ;
-        echo $link->getLinkDefault() . PHP_EOL . $link->getLinkShorter() . PHP_EOL;
-    } else $err .= $_POST['longLink'] . ' is not a link!';
-}
+$domain = "https://murri.rf.gd/";
 
+if (isset($_GET['e']))
+    $err = 'Its not a link!';
+
+if (isset($_GET['u'])) {
+    $u = filter_input(INPUT_GET, 'u', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $res = $pdo->getLongLink($u);
+    header("Location: " . $res['longLink']);
+}
 ?>
 
 <!doctype html>
@@ -47,9 +48,9 @@ if (isset($_POST['submit'])) {
             <form method="post">
                 <i class="bi bi-link-45deg"></i>
                 <input type="text" id="longName" name="longLink" placeholder="Place your long link in here" required>
-                <label><?= $err ?></label>
                 <button name="submit" type="submit">Shorten</button>
             </form>
+            <label><?= $err ?></label>
         </div>
     </div>
     <div>
@@ -66,10 +67,22 @@ if (isset($_POST['submit'])) {
                 foreach ($pdo->getAllData('links') as $link):
                     ?>
                     <div class="data">
-                        <li><?= $link['shortLink'] ?></li>
-                        <li><a href="<?= $link['longLink'] ?>"><?= substr($link['longLink'], 0, 150) . '...' ?></a></li>
+                        <li><a href="<?= $domain . '?u=' . $link['shortLink'] ?>"
+                               target="_blank"><?= $domain . '?u=' . $link['shortLink'] ?></a></li>
+                        <li><a href="<?= $link['longLink'] ?>" target="_blank">
+                                <?php
+                                if (strlen($link['longLink']) > 60) {
+                                    echo substr($link['longLink'], 0, 50) . '...';
+                                } else {
+                                    echo $link['longLink'];
+                                } ?></a></li>
                         <li><?= $link['clicks'] ?></li>
-                        <li><a><i class="bi bi-trash-fill"></i></a></li>
+                        <li>
+                            <form method="post" target="inc/link_delete.php">
+                                <input type="hidden" name="id" value="<?= $link['id'] ?>">
+                                <button name="submit" type="submit"><i class="bi bi-trash-fill"></i></button>
+                            </form>
+                        </li>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -77,7 +90,9 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="popup-box">
         <div class="info">
-
+            <h3>here is your shorten link</h3>
+            <input type="text" readonly
+                   value="<?php if (isset($_SESSION['short'])) echo $domain . '?u=' . $_SESSION['short'] ?>">
         </div>
     </div>
 </main>

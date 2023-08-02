@@ -46,7 +46,6 @@ class Link
         if ($pdo->getLinkValidation($short)) {
             return false;
         }
-
         return $this->linkShorter = $short;
     }
 }

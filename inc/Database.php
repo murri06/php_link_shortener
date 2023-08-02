@@ -59,5 +59,27 @@ class Database
         return $sth->fetchAll();
     }
 
+    public function insertLinkData($short, $long, $userId): bool
+    {
+        $sql = "INSERT INTO links(shortLink, longLink, userId, clicks) VALUES('$short' , '$long', '$userId', '0')";
+        if ($this->pdo->query($sql))
+            return true;
+        else return false;
+    }
 
+    public function getLongLink($short): array
+    {
+        $sql = "SELECT longLink FROM links WHERE shortLink = '$short'";
+        $sth = $this->pdo->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+        $sth->execute();
+        return $sth->fetch();
+    }
+
+    public function deleteQuery($tablename, $id): bool
+    {
+        $sql = "DELETE FROM $tablename WHERE id = '$id'";
+        if ($this->pdo->query($sql))
+            return true;
+        else return false;
+    }
 }

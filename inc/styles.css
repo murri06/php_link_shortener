@@ -109,11 +109,6 @@ form input:valid {
     padding: 0 90px 0 45px;
 }
 
-.wrapper form label {
-    color: red;
-    inline-size: auto;
-}
-
 .wrapper-urls {
     width: 100%;
     border: 3px solid #8e2de2;
@@ -182,4 +177,28 @@ form input:valid {
 
 .wrapper-urls li:nth-child(4) {
     max-width: 10%;
+}
+
+.popup-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: #fff;
+    padding: 25px;
+    max-width: 480px;
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.popup-box.show {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
 }
