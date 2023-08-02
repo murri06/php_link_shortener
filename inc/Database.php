@@ -45,7 +45,7 @@ class Database
 
     public function getAllData($tablename): array
     {
-        $sql = "SELECT * FROM $tablename";
+        $sql = "SELECT * FROM $tablename ORDER BY id ";
         $sth = $this->pdo->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
         $sth->execute();
         return $sth->fetchAll();
@@ -67,7 +67,7 @@ class Database
         else return false;
     }
 
-    public function getLongLink($short): array
+    public function getLongLink($short)
     {
         $sql = "SELECT longLink FROM links WHERE shortLink = '$short'";
         $sth = $this->pdo->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
@@ -81,5 +81,11 @@ class Database
         if ($this->pdo->query($sql))
             return true;
         else return false;
+    }
+
+    public function updateClicks($short): void
+    {
+        $sql = "UPDATE links SET clicks = clicks + 1 WHERE shortLink = '$short'";
+        $this->pdo->query($sql);
     }
 }

@@ -55,7 +55,7 @@ main {
     position: relative;
 }
 
-form .bi-link-45deg {
+.form-shortener .bi-link-45deg {
     position: absolute;
     width: 50px;
     text-align: center;
@@ -64,7 +64,7 @@ form .bi-link-45deg {
     color: #8e2de2;
 }
 
-form input {
+.form-shortener input {
     height: 100%;
     width: 100%;
     padding: 0 0 0 45px;
@@ -75,15 +75,15 @@ form input {
     transition: all 0.1s ease;
 }
 
-form input:focus {
+.form-shortener input:focus {
     border-color: #ad4eff;
 }
 
-form input::placeholder {
+.form-shortener input::placeholder {
     color: #8e2de2;
 }
 
-form button {
+.form-shortener button {
     border-radius: 10px;
     position: absolute;
     right: 5px;
@@ -96,16 +96,16 @@ form button {
     pointer-events: none;
 }
 
-form button:hover {
+.form-shortener button:hover {
     background: #ad4eff;
 }
 
-form input:valid ~ button {
+.form-shortener input:valid ~ button {
     opacity: 1;
     pointer-events: auto;
 }
 
-form input:valid {
+.form-shortener input:valid {
     padding: 0 90px 0 45px;
 }
 
@@ -113,7 +113,8 @@ form input:valid {
     width: 100%;
     border: 3px solid #8e2de2;
     border-radius: 10px;
-    max-height: 500px;
+    max-height: 44vh;
+    overflow-x: scroll;
     overflow-y: scroll;
 }
 
@@ -179,6 +180,27 @@ form input:valid {
     max-width: 10%;
 }
 
+.header-update {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    color: #8e2de2;
+}
+
+.update-btn {
+    background: none;
+    border-color: #8e2de2;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.bi-arrow-repeat {
+    width: 50px;
+    text-align: center;
+    font-size: 23px;
+    color: #8e2de2;
+}
+
 .popup-box {
     position: absolute;
     top: 50%;
@@ -201,4 +223,15 @@ form input:valid {
     pointer-events: auto;
     visibility: visible;
     transform: translate(-50%, -50%) scale(1);
+}
+
+.form-delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-delete button {
+    border: none;
+    background: none;
 }
