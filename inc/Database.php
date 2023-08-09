@@ -94,7 +94,7 @@ class Database
         $sql = "SELECT username, password FROM users WHERE username = '$login' LIMIT 1";
         $sth = $this->pdo->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
         $sth->execute();
-        return $sth->fetchAll();
+        return $sth->fetch();
     }
 
     public function createUser($login, $password): bool

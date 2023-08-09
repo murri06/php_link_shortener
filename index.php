@@ -58,6 +58,7 @@ if (isset($_GET['u'])) {
         header("Location: " . $res['longLink']);
     } else $err = 'This link is not valid';
 }
+
 ?>
 
 <!doctype html>
@@ -79,7 +80,7 @@ if (isset($_GET['u'])) {
     <div class="wrapper-header">
         <h2>PHP Link Shortener</h2>
         <?php if (isset($_SESSION["username"])): ?>
-            <form action="inc/logout.php" method="get">
+            <form action="inc/logout.php" method="post">
                 <button type="submit" name="submit">Logout</button>
             </form>
         <?php endif; ?>
@@ -155,7 +156,7 @@ if (isset($_GET['u'])) {
             <div class="login-wrapper">
                 <h3>Login</h3>
                 <form action="inc/login.php" method="post">
-                    <input type="text" name="login" required placeholder="login">
+                    <input type="text" name="username" required placeholder="login">
                     <input type="password" name="password" required placeholder="password">
                     <div class="btn-container">
                         <?php if (isset($loginErr)) : ?>
@@ -168,7 +169,7 @@ if (isset($_GET['u'])) {
             <div class="login-wrapper">
                 <h3>Register</h3>
                 <form action="inc/login.php" method="post">
-                    <input type="text" name="login" required placeholder="login">
+                    <input type="text" name="username" required placeholder="login">
                     <?php if (isset($usernameErr)) : ?>
                         <label class="error"><i class="bi bi-exclamation-triangle-fill"></i><?= $usernameErr ?></label>
                     <?php endif; ?>
