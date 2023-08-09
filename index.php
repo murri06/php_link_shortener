@@ -117,7 +117,7 @@ if (isset($_GET['u'])) {
                     </div>
 
                     <?php
-                    foreach ($pdo->getAllData('links') as $link):
+                    foreach ($pdo->getAllLinks($_SESSION['userId']) as $link):
                         ?>
                         <div class="data">
                             <li><a href="<?= $domain . '?u=' . $link['shortLink'] ?>"

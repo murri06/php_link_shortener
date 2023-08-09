@@ -43,9 +43,9 @@ class Database
         $this->pdo = $pdo;
     }
 
-    public function getAllData($tablename): array
+    public function getAllLinks($userid): array
     {
-        $sql = "SELECT * FROM $tablename ORDER BY id ";
+        $sql = "SELECT * FROM links WHERE userId = '$userid' ORDER BY id ";
         $sth = $this->pdo->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
         $sth->execute();
         return $sth->fetchAll();
@@ -91,7 +91,7 @@ class Database
 
     public function userValidation($login)
     {
-        $sql = "SELECT username, password FROM users WHERE username = '$login' LIMIT 1";
+        $sql = "SELECT * FROM users WHERE username = '$login' LIMIT 1";
         $sth = $this->pdo->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
         $sth->execute();
         return $sth->fetch();

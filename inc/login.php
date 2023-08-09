@@ -17,6 +17,7 @@ if (isset($_POST['login'])) {
 
         if (password_verify($password, $res['password'])) {
             $_SESSION['username'] = $res['username'];
+            $_SESSION['userId'] = $res['id'];
             header("Location: $domain");
 
         } else header("Location: $domain?e=5");
