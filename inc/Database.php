@@ -88,4 +88,20 @@ class Database
         $sql = "UPDATE links SET clicks = clicks + 1 WHERE shortLink = '$short'";
         $this->pdo->query($sql);
     }
+
+    public function userValidation($login)
+    {
+        $sql = "SELECT username, password FROM users WHERE username = '$login' LIMIT 1";
+        $sth = $this->pdo->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+        $sth->execute();
+        return $sth->fetchAll();
+    }
+
+    public function createUser($login, $password): bool
+    {
+        $sql = "INSERT INTO users(username, password) VALUES('$login' , '$password')";
+        if ($this->pdo->query($sql))
+            return true;
+        else return false;
+    }
 }

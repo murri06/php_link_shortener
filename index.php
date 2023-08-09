@@ -29,7 +29,26 @@ if (isset($_POST['id'])) {
 }
 
 if (isset($_GET['e']))
-    $err = 'Its not a link!';
+    switch ($_GET['e']) {
+        case 0:
+            $err = 'Its not a link!';
+            break;
+        case 1:
+            $usernameErr = 'That login is occupied, please choose another!';
+            break;
+        case 2:
+            $passwordErr = 'Passwords does not matches!';
+            break;
+        case 3:
+            $success = 'Now you can login into your account!';
+            break;
+        case 4:
+            $passwordErr = 'Something went wrong, please try again later!';
+            break;
+        case 5:
+            $loginErr = 'Login and password does not matches!';
+            break;
+    }
 
 if (isset($_GET['u'])) {
     $u = filter_input(INPUT_GET, 'u', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -59,68 +78,115 @@ if (isset($_GET['u'])) {
 <header>
     <div class="wrapper-header">
         <h2>PHP Link Shortener</h2>
+        <?php if (isset($_SESSION["username"])): ?>
+            <form action="inc/logout.php" method="get">
+                <button type="submit" name="submit">Logout</button>
+            </form>
+        <?php endif; ?>
     </div>
 
 </header>
 <main>
-    <div>
-        <div class="wrapper">
-            <form method="post" class="form-shortener">
-                <i class="bi bi-link-45deg"></i>
-                <input type="text" id="longName" name="longLink" placeholder="Place your long link in here" required>
-                <button name="submit" type="submit">Shorten</button>
-            </form>
-            <?php if (isset($err)) : ?>
-                <label><?= $err ?></label>
-            <?php endif; ?>
-        </div>
-    </div>
-    <div>
-        <div class="wrapper">
-            <div class="header-update">
-                <h3>List of links</h3>
-                <button class="update-btn" onclick="refreshPage()"><i class="bi bi-arrow-repeat"></i></button>
+    <?php if (isset($_SESSION["username"])): ?>
+        <div>
+            <div class="wrapper">
+                <form method="post" class="form-shortener">
+                    <i class="bi bi-link-45deg"></i>
+                    <input type="text" id="longName" name="longLink" placeholder="Place your long link in here"
+                           required>
+                    <button name="submit" type="submit">Shorten</button>
+                </form>
+                <?php if (isset($err)) : ?>
+                    <label class="error"><?= $err ?></label>
+                <?php endif; ?>
             </div>
-            <div class="wrapper-urls">
-                <div class="title">
-                    <li>Shorten URL</li>
-                    <li>Original URL</li>
-                    <li>Clicks</li>
-                    <li>Action</li>
+        </div>
+        <div>
+            <div class="wrapper">
+                <div class="header-update">
+                    <h3>List of links</h3>
+                    <button class="update-btn" onclick="refreshPage()"><i class="bi bi-arrow-repeat"></i></button>
                 </div>
-
-                <?php
-                foreach ($pdo->getAllData('links') as $link):
-                    ?>
-                    <div class="data">
-                        <li><a href="<?= $domain . '?u=' . $link['shortLink'] ?>"
-                               target="_blank"><?= $domain . '?u=' . $link['shortLink'] ?></a></li>
-                        <li><a href="<?= $link['longLink'] ?>" target="_blank">
-                                <?php
-                                if (strlen($link['longLink']) > 60) {
-                                    echo substr($link['longLink'], 0, 50) . '...';
-                                } else {
-                                    echo $link['longLink'];
-                                } ?></a></li>
-                        <li><?= $link['clicks'] ?></li>
-                        <li>
-                            <form method="post" class="form-delete">
-                                <button name="submit" type="submit"><i class="bi bi-trash-fill" onclick="return confirm('Are you sure you want to delete this link?')"></i></button>
-                                <input type="hidden" name="id" value="<?= $link['id'] ?>">
-                            </form>
-                        </li>
+                <div class="wrapper-urls">
+                    <div class="title">
+                        <li>Shorten URL</li>
+                        <li>Original URL</li>
+                        <li>Clicks</li>
+                        <li>Action</li>
                     </div>
-                <?php endforeach; ?>
+
+                    <?php
+                    foreach ($pdo->getAllData('links') as $link):
+                        ?>
+                        <div class="data">
+                            <li><a href="<?= $domain . '?u=' . $link['shortLink'] ?>"
+                                   target="_blank"><?= $domain . '?u=' . $link['shortLink'] ?></a></li>
+                            <li><a href="<?= $link['longLink'] ?>" target="_blank">
+                                    <?php
+                                    if (strlen($link['longLink']) > 60) {
+                                        echo substr($link['longLink'], 0, 50) . '...';
+                                    } else {
+                                        echo $link['longLink'];
+                                    } ?></a></li>
+                            <li><?= $link['clicks'] ?></li>
+                            <li>
+                                <form method="post" class="form-delete">
+                                    <button name="submit" type="submit"><i class="bi bi-trash-fill"
+                                                                           onclick="return confirm('Are you sure you want to delete this link?')"></i>
+                                    </button>
+                                    <input type="hidden" name="id" value="<?= $link['id'] ?>">
+                                </form>
+                            </li>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="popup-box">
-        <div class="info">
-            <h3>here is your shorten link</h3>
-            <input type="text" readonly
-                   value="<?php if (isset($_SESSION['short'])) echo $domain . '?u=' . $_SESSION['short'] ?>">
+        <div class="popup-box">
+            <div class="info">
+                <h3>here is your shorten link</h3>
+                <input type="text" readonly
+                       value="<?php if (isset($_SESSION['short'])) echo $domain . '?u=' . $_SESSION['short'] ?>">
+            </div>
         </div>
-    </div>
+    <?php
+    else:?>
+        <div class="login-register-form">
+            <div class="login-wrapper">
+                <h3>Login</h3>
+                <form action="inc/login.php" method="post">
+                    <input type="text" name="login" required placeholder="login">
+                    <input type="password" name="password" required placeholder="password">
+                    <div class="btn-container">
+                        <?php if (isset($loginErr)) : ?>
+                            <label><?= $loginErr ?></label>
+                        <?php endif; ?>
+                        <button type="submit" name="login">Login</button>
+                    </div>
+                </form>
+            </div>
+            <div class="login-wrapper">
+                <h3>Register</h3>
+                <form action="inc/login.php" method="post">
+                    <input type="text" name="login" required placeholder="login">
+                    <?php if (isset($usernameErr)) : ?>
+                        <label class="error"><i class="bi bi-exclamation-triangle-fill"></i><?= $usernameErr ?></label>
+                    <?php endif; ?>
+                    <input type="password" name="password" required placeholder="password">
+                    <input type="password" name="passwordRepeat" required placeholder="repeat password">
+                    <?php if (isset($passwordErr)) : ?>
+                        <label class="error"><i class="bi bi-exclamation-triangle-fill"></i><?= $passwordErr ?></label>
+                    <?php endif; ?>
+                    <div class="btn-container">
+                        <?php if (isset($success)) : ?>
+                            <label><?= $success ?></label>
+                        <?php endif; ?>
+                        <button type="submit" name="register">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <?php endif; ?>
 </main>
 <footer>
 
