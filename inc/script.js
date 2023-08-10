@@ -8,7 +8,7 @@ $(document).ready(function () {
         navigator.clipboard.writeText(linkContent);
 
         // Change icon class to show copied state
-        var icon = $(this).find('i');
+        const icon = $(this).find('i');
         icon.removeClass('bi-clipboard-fill');
         icon.addClass('bi-clipboard-check-fill');
         tooltip.css('opacity', '1');
@@ -22,8 +22,6 @@ $(document).ready(function () {
     });
     $('.close-button').click(function () {
         $('.popup-box').fadeOut();
-        $('body').removeClass('blur');
-        // .addClass('hide')
         $.ajax("inc/copyLink.php");
     })
 

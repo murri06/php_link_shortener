@@ -57,6 +57,7 @@ if (isset($_GET['u'])) {
         $pdo->updateClicks($u);
         header("Location: " . $res['longLink']);
     } else $err = 'This link is not valid';
+    // TODO: create modal window for not valid link
 }
 
 ?>
@@ -82,7 +83,7 @@ if (isset($_GET['u'])) {
         <h2>PHP Link Shortener</h2>
         <?php if (isset($_SESSION["username"])): ?>
             <form action="inc/logout.php" method="post">
-                <button type="submit" name="submit">Logout</button>
+                <button type="submit" name="submit" class="logout">Logout</button>
             </form>
         <?php endif; ?>
     </div>

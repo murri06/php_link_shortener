@@ -96,6 +96,15 @@ main {
     pointer-events: none;
 }
 
+.logout {
+    border-radius: 10px;
+    padding: 5px 10px;
+    background: #8e2de2;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
 .form-shortener button:hover {
     background: #ad4eff;
 }
@@ -219,12 +228,6 @@ main {
     transition: all 0.3s ease;
 }
 
-.popup-box.hide {
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-}
-
 .form-delete {
     display: flex;
     justify-content: center;
@@ -259,10 +262,6 @@ main {
     box-shadow: #4a00e0;
 }
 
-.login-wrapper input {
-    margin-bottom: 10px;
-}
-
 .login-wrapper button {
     border-radius: 10px;
     padding: 5px 10px;
@@ -279,12 +278,17 @@ main {
 .login-wrapper input {
     height: 100%;
     width: 100%;
-    padding: 0 0 0 5px;
+    padding: 5px;
     font-size: 20px;
     caret-color: #8e2de2;
     border: 3px solid #8e2de2;
     border-radius: 10px;
     transition: all 0.1s ease;
+    margin-bottom: 10px;
+}
+
+.login-wrapper input::placeholder {
+    padding-left: 10px;
 }
 
 .btn-container {
