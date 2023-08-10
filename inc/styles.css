@@ -157,7 +157,7 @@ main {
     align-items: center;
 }
 
-.bi-trash-fill {
+.bi-trash-fill, .bi-clipboard-fill, .bi-clipboard-check-fill {
     color: #8e2de2;
     width: 50px;
     font-size: 23px;
@@ -191,14 +191,14 @@ main {
     color: #8e2de2;
 }
 
-.update-btn {
+.update-btn, .close-button {
     background: none;
     border-color: #8e2de2;
     border-radius: 10px;
     margin-bottom: 5px;
 }
 
-.bi-arrow-repeat {
+.bi-arrow-repeat, .bi-x-lg {
     width: 50px;
     text-align: center;
     font-size: 23px;
@@ -216,17 +216,13 @@ main {
     width: 100%;
     border-radius: 5px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
     transition: all 0.3s ease;
 }
 
-.popup-box.show {
-    opacity: 1;
-    pointer-events: auto;
-    visibility: visible;
-    transform: translate(-50%, -50%) scale(1);
+.popup-box.hide {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
 }
 
 .form-delete {
@@ -235,7 +231,7 @@ main {
     align-items: center;
 }
 
-.form-delete button {
+.form-delete button, .copy-button {
     border: none;
     background: none;
 }
@@ -294,4 +290,14 @@ main {
 .btn-container {
     display: flex;
     justify-content: flex-end;
+}
+
+.tooltip {
+    opacity: 0;
+    font-size: 14px;
+    position: relative;
+    pointer-events: none;
+    background: white;
+    border-radius: 10px;
+    padding: 5px;
 }

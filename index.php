@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
         $longLink = filter_input(INPUT_POST, 'longLink', FILTER_SANITIZE_URL);
         $link = new Link($longLink);
         while (!$link->generateLink($pdo)) ;
-        if ($pdo->insertLinkData($link->getLinkShorter(), $link->getLinkDefault(), '0')) {
+        if ($pdo->insertLinkData($link->getLinkShorter(), $link->getLinkDefault(), $_SESSION['userId'])) {
             $_SESSION['short'] = $link->getLinkShorter();
             header("Location: $domain");
         } else echo 'Something went wrong...';
@@ -74,6 +74,7 @@ if (isset($_GET['u'])) {
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="inc/styles.css">
+
 </head>
 <body>
 <header>
@@ -121,7 +122,13 @@ if (isset($_GET['u'])) {
                         ?>
                         <div class="data">
                             <li><a href="<?= $domain . '?u=' . $link['shortLink'] ?>"
-                                   target="_blank"><?= $domain . '?u=' . $link['shortLink'] ?></a></li>
+                                   target="_blank"><?= $domain . '?u=' . $link['shortLink'] ?></a>
+                                <button class="copy-button">
+                                    <i class
+                                       ="bi bi-clipboard-fill"></i>
+                                    <div class="tooltip">Copied!</div>
+                                </button>
+                            </li>
                             <li><a href="<?= $link['longLink'] ?>" target="_blank">
                                     <?php
                                     if (strlen($link['longLink']) > 60) {
@@ -143,13 +150,26 @@ if (isset($_GET['u'])) {
                 </div>
             </div>
         </div>
-        <div class="popup-box">
-            <div class="info">
-                <h3>here is your shorten link</h3>
-                <input type="text" readonly
-                       value="<?php if (isset($_SESSION['short'])) echo $domain . '?u=' . $_SESSION['short'] ?>">
+        <?php
+        if (isset($_SESSION['short'])):
+            ?>
+
+            <div class="popup-box">
+                <div class="info">
+                    <div class="header-update">
+                        <h3>here is your shorten link</h3>
+                        <button class="close-button"><i class="bi bi-x-lg"></i></button>
+                    </div>
+                    <input type="text" readonly id="copyinput"
+                           value="<?= $domain . '?u=' . $_SESSION['short'] ?>">
+                    <button class="copy-button">
+                        <i class
+                           ="bi bi-clipboard-fill"></i>
+                        <div class="tooltip">Copied!</div>
+                    </button>
+                </div>
             </div>
-        </div>
+        <?php endif; ?>
     <?php
     else:?>
         <div class="login-register-form">
@@ -192,7 +212,8 @@ if (isset($_GET['u'])) {
 <footer>
 
 </footer>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="inc/script.js"></script>
 <script>
     function refreshPage() {
         location.reload();
